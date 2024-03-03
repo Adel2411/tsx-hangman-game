@@ -74,9 +74,12 @@ function App() {
       <div className="App">
           <div className="win-lose" style={{visibility: (!isWinner && !isLoser) ? "hidden": "visible"}}>
               <div style={{color: isWinner ? "darkgreen" : "darkred"}}>
-                  {isWinner ? "YOU WIN :) press Enter or restart button to replay" : ""}
-                  {isLoser ? "YOU LOSE :( press Enter or restart button to replay" : ""}
+                  {isWinner ? "YOU WIN :)" : ""}
+                  {isLoser ? "YOU LOSE :(" : ""}
               </div>
+              <h2 style={{color: "black"}}>
+                  press 'Enter' key or 'Replay' button to replay
+              </h2>
               <button onClick={refreshGame}>Replay</button>
           </div>
           <HangmanDraw numberOfGuessed={incorrectLetters.length}/>
