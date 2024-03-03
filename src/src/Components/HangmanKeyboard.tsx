@@ -13,12 +13,22 @@ const KEYBOARD_KEYS = [
     "x", "y", "z"
 ];
 
-export function HangmanKeyboard() {
+type keyboardProps = {
+    activeLetters: string[],
+    inactiveLetters: string[],
+    addGuessedLetters: (letter: string) => void
+}
+
+export function HangmanKeyboard({activeLetters, inactiveLetters, addGuessedLetters}: keyboardProps) {
     return <div className="keyboard-div">
-        {KEYBOARD_KEYS.map((key) => (
-            <button className="key-button" key={key}>
+        {KEYBOARD_KEYS.map((key) => {
+            const isActive = activeLetters.includes(key);
+            const isInactive = inactiveLetters.includes(key);
+            const activeClass: string = isActive ? "active" : "";
+            const inactiveClass: string = isInactive ? "inactive" : "";
+            return (<button onClick={() => addGuessedLetters(key)}  disabled={isActive | isInactive} className={`key-button ${activeClass} ${inactiveClass}`} key={key}>
                 {key}
-            </button>
-        ))}
+            </button>)
+        })}
     </div>
 }

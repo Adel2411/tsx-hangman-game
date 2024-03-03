@@ -21,6 +21,9 @@ body {
     color: black;
 }
 
+
+/*----DRAW COMPONENT----*/
+
 .draw-div {
     position: relative;
 }
@@ -88,6 +91,9 @@ body {
     transform-origin: right bottom;
 }
 
+
+/*----WORD TO GUESS COMPONENT----*/
+
 .word-div {
     display: flex;
     gap: 0.25em;
@@ -101,6 +107,9 @@ body {
 .letter {
     border-bottom: 0.1em solid black;
 }
+
+
+/*----KEYBOARD COMPONENT----*/
 
 .keyboard-div {
     display: grid;
@@ -132,13 +141,16 @@ body {
 }
 
 .key-button.active {
-    background: #1a1a1a;
+    background: darkgreen;
+    border: 1px solid #595959;
     color: white;
+    opacity: 50%;
 }
 
 .key-button.inactive {
     opacity: 20%;
     border: 1px solid black;
+    background: darkred;
 }
 
 .key-button.inactive:hover {

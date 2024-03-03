@@ -1,5 +1,5 @@
 import './App.css'
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import wordList from "./wordList.json"
 import {HangmanDraw} from "./Components/HangmanDraw.tsx";
 import {HangmanWord} from "./Components/HangmanWord.tsx";
@@ -17,11 +17,11 @@ function App() {
   const incorectLetters = guessedLetters.filter(letter => !wordToGuess.includes(letter));
 
   // Function to add the pressed key in the guessedLetters array :
-  function addGuessedLetter(letter: string): void {
+  const addGuessedLetter = useCallback((letter: string): void => {
       if (guessedLetters.includes(letter)) return;
-
       setGuesssedLetters(currentLetters => [...currentLetters, letter]);
-  }
+  }, [guessedLetters]);     // the callBack of this function reload only if guessedLetters changes
+
 
   useEffect(() => {
       const eventHandler = (e: KeyboardEvent) => {
@@ -38,7 +38,7 @@ function App() {
       return () => {
           document.removeEventListener("keypress", eventHandler);
       }
-  }, [])
+  }, [guessedLetters])  //it reloads when guessedLetters array changes
 
   return (
       <div className="App">
@@ -46,7 +46,11 @@ function App() {
           <HangmanDraw numberOfGuessed={incorectLetters.length}/>
           <HangmanWord word={wordToGuess} guessedLetters={guessedLetters}/>
           <div className="keys-div">
-              <HangmanKeyboard/>
+              <HangmanKeyboard
+                  activeLetters={guessedLetters.filter(letter => wordToGuess.includes(letter))}
+                  inactiveLetters={incorectLetters}
+                  addGuessedLetters={addGuessedLetter}
+              />
           </div>
       </div>
   )
