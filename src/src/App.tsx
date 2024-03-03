@@ -6,12 +6,15 @@ import {HangmanWord} from "./Components/HangmanWord.tsx";
 import {HangmanKeyboard} from "./Components/HangmanKeyboard.tsx";
 
 function App() {
+  // Generate a random word from wordList.json file :
   const [wordToGuess, setWordToGuess] = useState<string>(() => {
     return wordList[Math.floor(Math.random() * wordList.length)];
   });
-  const [gessedletters, setGesssedletters] = useState<string[]>([]);
+  // Letters typed by the user :
+  const [guessedletters, setGesssedletters] = useState<string[]>([]);
 
-  const incorectLetters = gessedletters.filter(letter => !wordToGuess.includes(letter));
+  // Incorrect letters types by the user :
+  const incorectLetters = guessedletters.filter(letter => !wordToGuess.includes(letter));
 
   console.log(wordToGuess);
 
@@ -19,7 +22,7 @@ function App() {
       <div className="App">
           <div className="win-lose">Lose Win</div>
           <HangmanDraw numberOfGuessed={incorectLetters.length}/>
-          <HangmanWord />
+          <HangmanWord word={wordToGuess} guessedLetters={guessedletters}/>
           <div className="keys-div">
               <HangmanKeyboard/>
           </div>
