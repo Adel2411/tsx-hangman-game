@@ -1,5 +1,5 @@
 import './App.css'
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import wordList from "./wordList.json"
 import {HangmanDraw} from "./Components/HangmanDraw.tsx";
 import {HangmanWord} from "./Components/HangmanWord.tsx";
@@ -11,18 +11,40 @@ function App() {
     return wordList[Math.floor(Math.random() * wordList.length)];
   });
   // Letters typed by the user :
-  const [guessedletters, setGesssedletters] = useState<string[]>([]);
+  const [guessedLetters, setGuesssedLetters] = useState<string[]>([]);
 
   // Incorrect letters types by the user :
-  const incorectLetters = guessedletters.filter(letter => !wordToGuess.includes(letter));
+  const incorectLetters = guessedLetters.filter(letter => !wordToGuess.includes(letter));
 
-  console.log(wordToGuess);
+  // Function to add the pressed key in the guessedLetters array :
+  function addGuessedLetter(letter: string): void {
+      if (guessedLetters.includes(letter)) return;
+
+      setGuesssedLetters(currentLetters => [...currentLetters, letter]);
+  }
+
+  useEffect(() => {
+      const eventHandler = (e: KeyboardEvent) => {
+          const key = e.key;
+          // if the key pressed isn't in the [a-z] interval, we don't do anything :
+          if (!key.match(/^[a-z]$/)) return;
+
+          e.preventDefault();
+          addGuessedLetter(key);
+      }
+
+      document.addEventListener("keypress", eventHandler);
+
+      return () => {
+          document.removeEventListener("keypress", eventHandler);
+      }
+  }, [])
 
   return (
       <div className="App">
           <div className="win-lose">Lose Win</div>
           <HangmanDraw numberOfGuessed={incorectLetters.length}/>
-          <HangmanWord word={wordToGuess} guessedLetters={guessedletters}/>
+          <HangmanWord word={wordToGuess} guessedLetters={guessedLetters}/>
           <div className="keys-div">
               <HangmanKeyboard/>
           </div>
