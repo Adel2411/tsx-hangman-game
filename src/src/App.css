@@ -9,16 +9,29 @@ body {
     max-width: 800px;
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 100px;
     margin: 0 auto;
     align-items: center;
     justify-content: center;
 }
 
 .win-lose {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+}
+
+.win-lose div{
     font-size: 2rem;
     text-align: center;
     font-weight: bold;
+}
+
+.win-lose button {
+    height: 100px;
+    width: 150px;
 }
 
 

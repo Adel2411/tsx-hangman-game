@@ -6,10 +6,17 @@ import {HangmanWord} from "./Components/HangmanWord.tsx";
 import {HangmanKeyboard} from "./Components/HangmanKeyboard.tsx";
 
 function App() {
+   function newWord() {
+       return wordList[Math.floor(Math.random() * wordList.length)];
+   }
+
+   function refreshGame() {
+       setGuessedLetters([]);
+       setWordToGuess(newWord());
+   }
+
   // Generate a random word from wordList.json file :
-  const [wordToGuess, setWordToGuess] = useState<string>(() => {
-    return wordList[Math.floor(Math.random() * wordList.length)];
-  });
+  const [wordToGuess, setWordToGuess] = useState<string>(newWord());
   // Letters typed by the user :
   const [guessedLetters, setGuessedLetters] = useState<string[]>([]);
 
@@ -25,10 +32,10 @@ function App() {
       const eventHandler = (e: KeyboardEvent) => {
           const key = e.key;
           // if the key pressed isn't "Enter" key, we don't do anything :
-          if (k !== "Enter") return;
+          if (key !== "Enter") return;
 
           e.preventDefault();
-          addGuessedLetter(key);
+          refreshGame();
       }
 
       document.addEventListener("keypress", eventHandler);
@@ -65,9 +72,12 @@ function App() {
 
   return (
       <div className="App">
-          <div className="win-lose" style={{color: isWinner? "darkgreen" : "darkred"}}>
-              {isWinner ? "Winner !": ""}
-              {isLoser ? "Loser !": ""}
+          <div className="win-lose" style={{visibility: (!isWinner && !isLoser) ? "hidden": "visible"}}>
+              <div style={{color: isWinner ? "darkgreen" : "darkred"}}>
+                  {isWinner ? "YOU WIN :) press Enter or restart button to replay" : ""}
+                  {isLoser ? "YOU LOSE :( press Enter or restart button to replay" : ""}
+              </div>
+              <button onClick={refreshGame}>Replay</button>
           </div>
           <HangmanDraw numberOfGuessed={incorrectLetters.length}/>
           <HangmanWord word={wordToGuess} guessedLetters={guessedLetters} reveal={isLoser}/>
