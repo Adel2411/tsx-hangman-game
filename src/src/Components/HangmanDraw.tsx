@@ -22,14 +22,15 @@ const LEFT_LEG = (
     <div className="left-leg"></div>
 )
 
-export function HangmanDraw() {
+const BODY_PARTS = [HEAD, BODY, RIGHT_ARM, LEFT_ARM, RIGHT_LEG, LEFT_LEG];
+
+type HangmanDrawProps = {
+    numberOfGuessed: number,
+}
+
+export function HangmanDraw( {numberOfGuessed }: HangmanDrawProps): JSX.Element {
     return <div className="draw-div">
-        {HEAD}
-        {BODY}
-        {RIGHT_ARM}
-        {LEFT_ARM}
-        {RIGHT_LEG}
-        {LEFT_LEG}
+        {BODY_PARTS.slice(0, numberOfGuessed)}
         <div style={{
             height: "50px",
             width: "10px",
