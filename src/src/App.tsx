@@ -20,13 +20,32 @@ function App() {
   const isLoser: boolean = incorrectLetters.length >= 6;
   const isWinner: boolean = wordToGuess.split("").every(letter => guessedLetters.includes(letter));
 
+  // Handle Enter keypress to restart the game :
+  useEffect(() => {
+      const eventHandler = (e: KeyboardEvent) => {
+          const key = e.key;
+          // if the key pressed isn't "Enter" key, we don't do anything :
+          if (k !== "Enter") return;
+
+          e.preventDefault();
+          addGuessedLetter(key);
+      }
+
+      document.addEventListener("keypress", eventHandler);
+
+      return () => {
+          document.removeEventListener("keypress", eventHandler);
+      }
+  }, []);
+
+
   // Function to add the pressed key in the guessedLetters array :
   const addGuessedLetter = useCallback((letter: string): void => {
       if (guessedLetters.includes(letter) || isLoser || isWinner) return;
       setGuessedLetters(currentLetters => [...currentLetters, letter]);
   }, [guessedLetters]);     // the callBack of this function reload only if guessedLetters changes
 
-
+  //Hand the keys pressed by the user :
   useEffect(() => {
       const eventHandler = (e: KeyboardEvent) => {
           const key = e.key;
@@ -46,12 +65,12 @@ function App() {
 
   return (
       <div className="App">
-          <div className="win-lose">
+          <div className="win-lose" style={{color: isWinner? "darkgreen" : "darkred"}}>
               {isWinner ? "Winner !": ""}
               {isLoser ? "Loser !": ""}
           </div>
           <HangmanDraw numberOfGuessed={incorrectLetters.length}/>
-          <HangmanWord word={wordToGuess} guessedLetters={guessedLetters}/>
+          <HangmanWord word={wordToGuess} guessedLetters={guessedLetters} reveal={isLoser}/>
           <div className="keys-div">
               <HangmanKeyboard
                   activeLetters={guessedLetters.filter(letter => wordToGuess.includes(letter))}
