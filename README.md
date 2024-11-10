@@ -1,5 +1,5 @@
-# tsx-hangman-game
-simple basic project with typescript and react
+#tsx-hangman-game
 
-setup :
---> npm create vite@latest (react -> typescript)
+Basic project using typescript and react
+
+Live demo : https://tsx-hangman-game.onrender.com
