@@ -1,4 +1,4 @@
-#tsx-hangman-game
+# tsx-hangman-game
 
 Basic project using typescript and react
 
